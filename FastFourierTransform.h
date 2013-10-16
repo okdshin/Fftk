@@ -70,9 +70,22 @@ public:
 		n_ <<= n_level_;
 		InitMemos();
 	}
-    ~FastFourierTransform(){}
+	~FastFourierTransform(){}
+	
+	auto Transform(const std::vector<std::complex<double>>& signal) -> std::vector<std::complex<double>> {
+		return DoTransform(signal, false);
+	}
 
-	auto operator()(const std::vector<std::complex<double>>& signal) -> std::vector<std::complex<double>> {
+	auto InverseTransform(const std::vector<std::complex<double>>& signal) -> std::vector<std::complex<double>> {
+		auto res = DoTransform(signal, true);
+		for(auto& e : res){
+			e /= static_cast<double>(signal.size());
+		}
+		return res;
+	}
+
+private:
+	auto DoTransform(const std::vector<std::complex<double>>& signal, bool is_inverse) -> std::vector<std::complex<double>> {
 		assert(signal.size() == n_);
 		
 		std::vector<std::complex<double>> src;
@@ -91,7 +104,7 @@ public:
 					res[index] += src[index];
 					res[index+wing] += src[index];	
 					
-					auto w = w_table_[i][k];
+					auto w = is_inverse ? std::conj(w_table_[i][k]) : w_table_[i][k];
 					auto t = w*src[index+wing];
 					res[index] += t;
 					res[index+wing] += -t;
@@ -102,7 +115,7 @@ public:
 		return res;
 		
 	}
-private:
+	
 	auto InitMemos() -> void {
 		InitIndexList();
 		InitWtable();

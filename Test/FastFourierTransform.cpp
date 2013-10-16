@@ -21,13 +21,17 @@ auto CheckFft() -> void {
 	Output(std::cout << "src: ", source_signal);
 	
 	FastFourierTransform fft(SignalLength(512));
-	auto fft_dest_signal = fft(source_signal);
+	auto fft_dest_signal = fft.Transform(source_signal);
 	AbsOutput(std::cout << "fft: ", fft_dest_signal);
 	
 	auto dft_dest_signal = Dft(source_signal);
 	AbsOutput(std::cout << "dft: ", dft_dest_signal);
 
 	FFTK_CHECK_EQUAL(dft_dest_signal, fft_dest_signal);	
+	
+	auto fft_inv_dest_signal = fft.InverseTransform(fft_dest_signal);
+	Output(std::cout << "inv_fft: ", fft_inv_dest_signal);
+	FFTK_CHECK_EQUAL(source_signal, fft_inv_dest_signal);	
 }
 
 int main(int argc, char* argv[])
