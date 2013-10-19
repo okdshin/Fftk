@@ -37,7 +37,7 @@ auto Output(std::ostream& os, const std::vector<std::complex<double>>& signal) -
 
 auto AbsOutput(std::ostream& os, const std::vector<std::complex<double>>& signal) -> void {
 	for(auto& s : signal){
-		os << int(abs(s)) << " ";
+		os << abs(s) << " ";
 	}
 	os << std::endl;
 }
