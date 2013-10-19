@@ -1,6 +1,8 @@
 #pragma once
 //Test:20130920
 #include <iostream>
+#include <vector>
+#include <complex>
 
 #define FFTK_CHECK_EQUAL(a, b){\
 	if(a == b){\
@@ -11,6 +13,8 @@
 		<< "\033[39m" << std::endl;\
 	}\
 }
+
+namespace fftk{
 
 auto operator==(const std::vector<std::complex<double>>& left, const std::vector<std::complex<double>>& right) -> bool {
 	if(left.size() != right.size()){
@@ -36,4 +40,6 @@ auto AbsOutput(std::ostream& os, const std::vector<std::complex<double>>& signal
 		os << int(abs(s)) << " ";
 	}
 	os << std::endl;
+}
+
 }

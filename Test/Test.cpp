@@ -2,6 +2,8 @@
 #include "Test.h"
 #include <iostream>
 
+using namespace fftk;
+
 auto CorrectTestFunc() -> void {
 	FFTK_CHECK_EQUAL(1, 1);	
 }
